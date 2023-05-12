@@ -31,9 +31,13 @@ module Rails
 
         loofah_fragment = Loofah.fragment(html)
 
-        loofah_fragment.scrub!(TextOnlyScrubber.new)
+        if options[:preserve_whitespace]
+          loofah_fragment.to_text
+        else
+          loofah_fragment.scrub!(TextOnlyScrubber.new)
 
-        properly_encode(loofah_fragment, encoding: "UTF-8")
+          properly_encode(loofah_fragment, encoding: "UTF-8")
+        end
       end
     end
 
